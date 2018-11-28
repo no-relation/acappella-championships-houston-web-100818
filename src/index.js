@@ -1,6 +1,7 @@
 const API = 'http://localhost:3000/a_cappella_groups'
 const acappellaTable = document.getElementById('table-body')
 const winnerBar = document.getElementById('winner')
+const sortButtons = document.querySelectorAll('[data-button-type]')
 
 let groupArray;
 let currentWinner;
@@ -12,6 +13,41 @@ fetch(API)
     groupArray = data
     render()
 })
+
+sortButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        sortArray(button.dataset.buttonType)
+    })
+})
+
+function sortArray(colName){
+    let sortCol = '';
+    let collegeParam = '';
+    switch (colName) {
+        case 'college':
+          sortCol = 'college';
+          collegeParam = 'name'
+          break;
+        case 'name':
+            sortCol = 'name';
+            break;
+        case 'membership':
+            sortCol = 'membership';
+            break;
+        case 'division':
+            sortCol = 'college';
+            collegeParam = 'division'
+            break;
+        }
+    groupArray.sort((a,b) => {
+        if (collegeParam) {
+            return a[sortCol][collegeParam].localeCompare(b[sortCol][collegeParam])
+        }else {
+            return a[sortCol].localeCompare(b[sortCol])
+        }
+    })
+    render()
+}
 
 function render() {
     acappellaTable.innerHTML = ''
