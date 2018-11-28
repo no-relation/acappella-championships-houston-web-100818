@@ -35,10 +35,7 @@ function render() {
         winButton.setAttribute('src','./assets/trophy.png')
         winButton.dataset.id = `acGroup-${index}`
         winButtonTable.append(winButton)
-        winButton.addEventListener('click', () => {
-            renderWinnerBar(group)
-            currentWinner = group
-        })
+        winButton.addEventListener('click', () => renderWinnerBar(group))
         
         const deleteButtonTable = document.createElement('td')
         const deleteButton = document.createElement('img')
@@ -55,20 +52,20 @@ function render() {
 }
 
     
-function renderWinnerBar(group) {
+function renderWinnerBar(winner) {
     // winner is taken out of array
     winnerIndex = groupArray.findIndex((group) => group.id === winner.id)
-    console.log('index of winner is',winnerIndex)
     groupArray.splice(winnerIndex,1)
     
     if (weHaveAWinner) {
         // old winner goes back in array
-        groupArray.splice(0, 0, winner)
+        groupArray.splice(0, 0, currentWinner)
     }
     
     winnerBar.innerHTML = ''
     winnerBar.innerHTML = `Winner: ${winner.name}, ${winner.college.name}`
     weHaveAWinner = true
+    currentWinner = winner
     
     render()
 }
