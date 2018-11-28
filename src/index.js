@@ -42,8 +42,7 @@ function render() {
         deleteButton.setAttribute('src','./assets/trashcan.png')
         deleteButton.dataset.id = `delete-group-${group.id}`
         deleteButtonTable.append(deleteButton)
-        // deleteButton.addEventListener('click', ()=>{})
-        
+        deleteButton.addEventListener('click', ()=> deleteGroup(group) )
         
         groupRow.append(college, groupName, membership, division, winButtonTable, deleteButtonTable)
         
@@ -51,7 +50,6 @@ function render() {
     })
 }
 
-    
 function renderWinnerBar(winner) {
     // winner is taken out of array
     winnerIndex = groupArray.findIndex((group) => group.id === winner.id)
@@ -67,5 +65,12 @@ function renderWinnerBar(winner) {
     weHaveAWinner = true
     currentWinner = winner
     
+    render()
+}
+
+function deleteGroup(loser) {
+    // loser is taken out of array
+    loserIndex = groupArray.findIndex((group) => group.id === loser.id)
+    groupArray.splice(loserIndex,1)
     render()
 }
